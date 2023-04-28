@@ -116,7 +116,7 @@ const Control = () => {
   
 
   return (
-    <div>
+    <div className="font-candara">
       <h1>Control for Fermentation and Drying</h1>
       <div className="toggle-switch">
         <h1>Fermentation</h1>
