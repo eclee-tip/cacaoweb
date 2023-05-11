@@ -41,9 +41,10 @@ const About = () => {
       <div className='box-data1'>
         <div className='text-margin'>
           <div style={{textAlign: 'justify', textJustify: 'inter-word'}}>
+        <center><img src="cawcaw.PNG" alt="Company Icon" height="200" width="200"></img></center>
         <span1>CacaoTech is a system that can do fermentation and drying process of cacao beans. It is created to help small scale farmers in terms of production.</span1>
         <br></br>
-        <span1>PamCak is a company that specializes in offering hardware solutions for the agriculture industry, with a particular focus on supporting cacao farmers. PamCak is dedicated to giving farmers the resources they require to succeed in the agricultural sector because it acknowledges the value of cacao farming to the agricultural sector. The company is based in Taytay, Rizal, and it was established in August of 2022.</span1>
+        <span1>CacaoTech is a company that specializes in offering hardware solutions for the agriculture industry, with a particular focus on supporting cacao farmers. This is dedicated to giving farmers the resources they require to succeed in the agricultural sector because it acknowledges the value of cacao farming to the agricultural sector. The company is based in Taytay, Rizal, and it was established in August of 2022.</span1>
         <br></br>
         <span1>CacaoTech, the company's first product, is an automated heating system for fermentation and drying cacao. It is equipped with several sensors, such as temperature, moisture, and pH, to monitor these parameters daily; a PTC ceramic heater that produces the heat; a blower fan for better airflow inside the system; an exhaust fan to prevent high heat; and a web application where the temperature, moisture, and pH data are displayed as well as the status of the other components.</span1>
         </div>
