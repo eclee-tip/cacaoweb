@@ -1,6 +1,12 @@
 import React, { useState, useEffect } from "react";
 import "../style/control.css";
-import { getDatabase, ref, set, onValue, off } from "firebase/database";
+import {
+  getDatabase,
+  ref,
+  set,
+  onValue,
+  off
+} from "firebase/database";
 
 const Control = () => {
   const [button1On, setButton1On] = useState(false);
@@ -20,26 +26,27 @@ const Control = () => {
         setButton1On(false);
       }
     };
-
+    
     const handleDryingChange = (snapshot) => {
       const dryingRefValue = snapshot.val();
-      if (dryingRefValue === 1) {
-        setButton2On(true);
-        setButton1On(false);
-      } else {
+      if (dryingRefValue === 0) {
         setButton2On(false);
+      }
+      else{
+        setButton2On(true);
       }
     };
 
     onValue(fermentationRef, handleFermentationChange);
     onValue(dryingRef, handleDryingChange);
 
+    // cleanup function to remove listeners
     return () => {
       off(fermentationRef, handleFermentationChange);
       off(dryingRef, handleDryingChange);
     };
   }, [db]);
-
+  
   const handleButton1Click = () => {
     const dryingRef = ref(db, "Data/Control/Drying");
     if (button2On) {
@@ -76,14 +83,15 @@ const Control = () => {
     }
   };
   
+  
+  
   const handleButton2Click = () => {
     const dryingRef = ref(db, "Data/Control/Drying");
     const fermentationRef = ref(db, "Data/Control/Fermentation");
-    if (button1On) {
-      alert("Fermentation process is ongoing");
+    if (!button2On) { // check if button2On is false
       return;
     }
-    if (button2On) {
+    if (button2On) { // check if button2On is true
       const stopDrying = window.confirm(
         "Are you sure you want to stop the drying process?"
       );
@@ -91,27 +99,26 @@ const Control = () => {
         set(ref(db, "Data/Control"), {
           Fermentation: button1On ? 1 : 0,
           Drying: 0,
-        })
-          .then(() => {
-            setButton2On(false);
-          })
-          .catch((error) => {
-            console.error("Error updating database: ", error);
-          });
-      }
-    } else {
-      set(ref(db, "Data/Control"), {
-        Fermentation: button1On ? 1 : 0,
-        Drying: !button2On ? 1 : 0,
-      })
-        .then(() => {
-          setButton2On(!button2On);
-        })
-        .catch((error) => {
+        }).then(() => {
+          setButton2On(false);
+        }).catch((error) => {
           console.error("Error updating database: ", error);
         });
+      }
+      return;
     }
-  };  
+    set(ref(db, "Data/Control"), {
+      Fermentation: button1On ? 1 : 0,
+      Drying: !button2On ? 1 : 0,
+    }).then(() => {
+      setButton2On(!button2On);
+    }).catch((error) => {
+      console.error("Error updating database: ", error);
+    });
+  };
+  
+  
+  
 
   return (
     <div className="font-candara">
@@ -119,7 +126,7 @@ const Control = () => {
       <div className="toggle-switch">
         <h1>Fermentation</h1>
         <button
-          className={`button ${button1On ? "on" : "off"}`}
+          className={`button ${button1On ? 'on' : 'off'}`}
           onClick={handleButton1Click}
           disabled={button2On}
         ></button>
@@ -128,14 +135,15 @@ const Control = () => {
       <div className="toggle-switch">
         <h1>Drying</h1>
         <button
-          className={`button ${button2On ? "on" : "off"}`}
+          className={`button ${button2On ? 'on' : 'off'}`}
           onClick={handleButton2Click}
-          disabled={button1On}
+          disabled={button1On }
         ></button>
         {button2On && <p>Drying is processing</p>}
       </div>
     </div>
   );
-};
+}
+  
 
 export default Control;
